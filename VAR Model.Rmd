@@ -1,0 +1,62 @@
+---
+title: "VAR Model Philippine"
+author: "Aris Zoleta"
+output: html_document
+---
+
+In this presentaion we will create a simple VAR model of the Philippine economy. The data set is collected from PSA and contains; data on repo, inflation, short government bond yield and long government bond yield 
+
+Let us load our data here 
+
+```{r}
+
+library(ggplot2)
+library(tidyverse)
+library(patchwork)
+
+
+Yield <- read.csv(file.choose("Yield.csv"))
+
+summary(Yield)
+
+
+```
+
+Now can do some plots of to check the relelationship among variables in the data set. 
+
+```{r}
+
+P1 <- ggplot(Yield) + geom_point(aes(x= repo, y= GDP)) +
+  ggtitle(label = "Repo vs GDP", subtitle = "1988 - 2008") + 
+  theme(plot.title = element_text(hjust = .50),
+        plot.subtitle = element_text(hjust = 0.50) )
+
+P2 <- ggplot(Yield) + geom_point(aes(x=repo, y=inflation)) + 
+  ggtitle(label = "Repo vs Inflation", subtitle = "1988-2008") + 
+  theme(plot.title = element_text(hjust = 0.50), 
+        plot.subtitle = element_text(hjust = 0.50))
+  
+  
+P3 <- ggplot(Yield) + geom_point(aes(x=GDP, y = inflation)) + 
+  ggtitle(label = "Repo vs Short Yield", subtitle = "1988-2008") + 
+  theme(plot.title = element_text(hjust = 0.50),
+        plot.subtitle = element_text(hjust = 0.50))
+
+S <- P1 + P2 + P3
+
+Z <- P1 + P2 + P3 
+
+D <- S/Z
+  
+
+D + plot_annotation(title ="VAR Model", subtitle = "Philippine Data", caption = 
+                      "Souce : Author's Calculation", 
+  theme = theme(plot.title = element_text(hjust = 0.50, size = 15), plot.subtitle = 
+  element_text(hjust = 0.50, face = "italic"), plot.caption = element_text(hjust = 0.50, face = "italic")))
+
+
+````
+
+
+
+
